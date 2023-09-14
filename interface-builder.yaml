@@ -1,0 +1,41 @@
+name: Terraform Interface Builder
+
+on: push
+
+jobs:
+  scan_and_execute:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Find and Execute
+        run: |
+          python .github/workflows/interface-builder-script/main.py -p ${{ github.workspace }}
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Changes detected."
+            echo "CHANGES=true" >> $GITHUB_ENV
+          else
+            echo "No changes found."
+            echo "CHANGES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Commit changes
+        run: |
+          if [ "$CHANGES" = "true" ]; then
+            echo "Committing changes"
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "Automated interface builder"
+            git push
+          else
+            echo "No changes detected. Skipping commit."
+          fi

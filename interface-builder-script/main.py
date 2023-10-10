@@ -36,12 +36,13 @@ parser.add_argument("-s", "--state",
 args = parser.parse_args()
 
 
-def find_file_in_directory(root_dir, target_filename):
+def find_files_in_directory(root_dir, target_filename):
+    matching_files = []
     for root, dirs, files in os.walk(root_dir):
-        if target_filename in files:
-            return os.path.abspath(os.path.join(root, target_filename))
-    return None
-
+        for file in files:
+            if file == target_filename:
+                matching_files.append(os.path.abspath(os.path.join(root, file)))
+    return matching_files
 
 def format_outputs(folder_path):
     output_file = os.path.join(folder_path, "interface", "outputs.tf")
@@ -152,10 +153,13 @@ def main():
     print(os.getcwd())
     target_filename = args.name
     root_directory = args.path
+    matching_files = find_files_in_directory(root_directory, target_filename)
 
-    file_path = find_file_in_directory(root_directory, target_filename)
+    if not matching_files:
+        print("No matching files found.")
+        return
 
-    if file_path:
+    for file_path in matching_files:
         print(f"Found the file at: {file_path}")
         folder_path = os.path.dirname(file_path)
         interface_folder_path = os.path.join(folder_path, "interface")
@@ -173,9 +177,6 @@ def main():
         format_outputs(folder_path)
         format_state(folder_path)
         build_variables(folder_path)
-    else:
-        print(f"File '{target_filename}' not found in the directory.")
-
 
 if __name__ == "__main__":
     main()

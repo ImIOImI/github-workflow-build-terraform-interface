@@ -62,6 +62,8 @@ def format_outputs(folder_path):
                         for match in matches:
                             output_blocks.append(match)
 
+    output_blocks = sorted(output_blocks)
+
     # Delete the existing output file and create a new one
     # open(output_file, "w").close()
     with open(output_file, "w") as file:
@@ -136,8 +138,8 @@ def build_variables(folder_path):
 
     text = """
 variable "workspace" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "environment + location of the environment"
 }
 

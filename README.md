@@ -1,8 +1,8 @@
 # github-workflow-build-terraform-interface
 
-This is a very alpha release of a terraform interface builder github action. As of now there are no tests, and
-it only works with Azure's remote state. It scans a terraform template then creates an interface module that 
-calls the remote state of a terraform environment and surface its outputs.
+This is a beta release of a terraform interface builder github action. As of now there are no tests, and
+it has only been tested on Azure's storage account backend and AWS's S3/Dynamo DB backend. It scans a terraform template then creates an interface module that 
+calls the remote state of a terraform environment and surfaces its outputs.
 
 ## How it works
 

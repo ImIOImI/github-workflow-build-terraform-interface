@@ -1,6 +1,6 @@
 # github-workflow-build-terraform-interface
 
-This is a beta release of a terraform interface builder github action. As of now there are no tests, and
+This is a script that I use as a terraform interface builder for github actions. As of now there are no tests, and
 it has only been tested on Azure's storage account backend and AWS's S3/Dynamo DB backend. It scans a terraform template then creates an interface module that 
 calls the remote state of a terraform environment and surfaces its outputs.
 
@@ -15,3 +15,4 @@ calls the remote state of a terraform environment and surfaces its outputs.
 The files `variables.tf`, `state.tf` and `outputs.tf` are 100% machine generated. If you put any code in them, it will 
 be clobbered automatically. I highly suggest that if you need to tweek the interface, you create additional files and do 
 it there.
+
